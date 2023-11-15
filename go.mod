@@ -1,6 +1,6 @@
 module github.com/vements/vements-go/v1
 
-go 1.21.0
+go 1.20
 
 require (
 	github.com/go-faker/faker/v4 v4.2.0
