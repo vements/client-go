@@ -182,7 +182,6 @@ type User struct {
 	UserId  string    `json:"user_id"`
 	Email   string    `json:"email"`
 	Display string    `json:"display"`
-	Db      string    `json:"db"`
 	Created time.Time `json:"created"`
 	Updated time.Time `json:"updated"`
 }
