@@ -1,3 +1,5 @@
+[![Build and Test](https://github.com/vements/client-go/actions/workflows/build-test.yaml/badge.svg?event=push)](https://github.com/vements/client-go/actions/workflows/build-test.yaml)
+
 ## Vements Client Library for Go
 
 The Vements Client Library for Go is a client library for accessing the Vements API from applications written in the Go language. It also includes a command line tool that can be used to interact with the API in scripts or in a terminal.
