@@ -1,4 +1,6 @@
-[![Build and Test](https://github.com/vements/client-go/actions/workflows/build-test.yaml/badge.svg?event=push)](https://github.com/vements/client-go/actions/workflows/build-test.yaml)
+[![Build and Test](https://github.com/vements/client-go/actions/workflows/build-test.yaml/badge.svg?event=push)](https://github.com/vements/client-go/actions/workflows/build-test.yaml) [![Go Reference](https://pkg.go.dev/badge/github.com/vements/client-go@v0.0.3.svg)](https://pkg.go.dev/github.com/vements/client-go@v0.0.3) [![GitHub tag](https://img.shields.io/github/tag/vements/client-go?include_prereleases=&sort=semver&color=blue)](https://github.com/vements/client-go/releases/)
+[![License](https://img.shields.io/badge/License-MIT-blue)](#license)
+[![issues - client-go](https://img.shields.io/github/issues/vements/client-go)](https://github.com/vements/client-go/issues)
 
 ## Vements Client Library for Go
 
@@ -13,7 +15,7 @@ See the [Go API docs](https://vements.io/docs/clients/golang/) for more informat
 To install the Vements Client Library for Go, use the following command:
 
 ```bash
-$ go get github.com/vements/client-libs/go
+$ go get github.com/vements/client-go@v0.0.3
 ```
 
 ### Build 
@@ -21,7 +23,7 @@ $ go get github.com/vements/client-libs/go
 To build the command line tool, use the following command:
 
 ```bash
-$ go build -o vements github.com/vements/client-libs/go/cmd/vements
+$ go build -o vements github.com/vements/client-go
 ```
 
 ### Usage
@@ -35,7 +37,7 @@ import (
     "fmt"
     "log"
 
-    vements "github.com/vements/client-libs/go"
+    vements " github.com/vements/client-go"
 )
 
 
@@ -50,20 +52,10 @@ func init() {
 
 The Vements Client Library for C# includes a command line tool that can be used to interact with the Vements API. The command line tool supports all of the same operations as the API.
 
-#### Build 
-
-To build the CLI:
-
-```bash
-$ go build -o ./vements-cli
-```
-
-The `./vements-cli` path is used to avoid a name collision with the `vements` package.  The file can be renamed to `vements` when moved to a directory in the `PATH`.
-
 #### Usage
 
 ```bash 
-$ vements-cli --help
+$ vements --help
 ```
 
 The Go CLI tool supports all of the same operations as the CLI tool in other languages:
