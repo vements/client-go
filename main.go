@@ -21,7 +21,7 @@ SOFTWARE.
 */
 package main
 
-import "github.com/vements/vements-go/v1/cmd"
+import "github.com/vements/client-go/v1/cmd"
 
 func main() {
 	cmd.Run()
