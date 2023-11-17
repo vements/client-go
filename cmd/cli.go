@@ -33,7 +33,7 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/vements/client-go/v1/vements"
+	"github.com/vements/client-go/vements"
 )
 
 func init() {
@@ -1016,3 +1016,4 @@ func MapTime(v string) time.Time {
 	}
 	return time.Now()
 }
+

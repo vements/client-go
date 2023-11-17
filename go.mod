@@ -1,4 +1,4 @@
-module github.com/vements/client-go/v1
+module github.com/vements/client-go
 
 go 1.20
 
