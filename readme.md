@@ -8,7 +8,7 @@ The Vements Client Library for Go is a client library for accessing the Vements 
 
 ### Documentation
 
-See the [Go API docs](https://vements.io/docs/clients/golang/) for more information on how to use this library.
+See the [Getting Started Guide](https://vements.io/docs/guides/getting-started/) for more information on how to use this library.
 
 ### Installation
 
