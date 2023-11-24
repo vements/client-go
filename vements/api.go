@@ -455,8 +455,8 @@ func (endpoint *ScoreboardEndpoint) Scores(
 
 	res, err := endpoint.Request().
 		SetResult(&val).
-		SetQueryParam("from", fmt.Sprintf("%v", from)).
-		SetQueryParam("to", fmt.Sprintf("%v", to)).
+		SetQueryParam("from", from.Format(time.RFC3339)).
+		SetQueryParam("to", to.Format(time.RFC3339)).
 		Get(endpoint.BaseUrl + url)
 
 	if res.StatusCode() > 299 || res.StatusCode() < 200 {
