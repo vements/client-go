@@ -18,7 +18,7 @@ func main() {
 	client, _ := vements.NewClient(API_KEY, []string{"production"}, vements.NewConfig())
 	id := rand.Intn(1000)
 
-	participantCreateResponse, _ := client.Participant.Create(
+	participant, _ := client.Participant.Create(
 		vements.ParticipantCreateRequest{
 			ProjectId:  PROJECT_ID,
 			Display:    fmt.Sprintf("Example Player %v", id),
@@ -28,9 +28,7 @@ func main() {
 		},
 	)
 
-	participant := participantCreateResponse.InsertParticipantOne
-
-	fmt.Printf("Participant Created: %+v\n", participantCreateResponse)
+	fmt.Printf("Participant Created: %+v\n", participant)
 
 	for i := 0; i < 5; i++ {
 		_, _ = client.Scoreboard.Record(
@@ -43,9 +41,7 @@ func main() {
 		)
 	}
 
-	scoresResponse, _ := client.Scoreboard.Scores(SCOREBOARD_ID, time.Now().Add(time.Hour*-24), time.Now())
-	scores := scoresResponse.ScoreboardScores
-
+	scores, _ := client.Scoreboard.Scores(SCOREBOARD_ID, time.Now().Add(time.Hour*-24), time.Now())
 	for _, score := range scores {
 		fmt.Printf("Rank: %v Player: %v Total: %v\n", score.Rank, score.Participant.Display, score.Total)
 	}

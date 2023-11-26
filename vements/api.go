@@ -50,7 +50,7 @@ func (c *AchievementEndpoint) Request() *resty.Request {
 */
 func (endpoint *AchievementEndpoint) Leaderboard(
 	achievementId string,
-) (*AchievementLeaderboardResponse, error) {
+) ([]AchievementLeaderboardItem, error) {
 	val := AchievementLeaderboardResponse{}
 	url := "achievement/{achievement_id}/leaderboard"
 	url = strings.Replace(url, "{achievement_id}", achievementId, -1)
@@ -64,7 +64,7 @@ func (endpoint *AchievementEndpoint) Leaderboard(
 		return nil, fmt.Errorf("achievement leaderboard returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return val.AchievementLeaderboards, err
 }
 
 /*
@@ -75,7 +75,7 @@ func (endpoint *AchievementEndpoint) Leaderboard(
 func (endpoint *AchievementEndpoint) Record(
 	achievementId string,
 	body AchievementProgressRequest,
-) (*AchievementProgressResponse, error) {
+) (*Progress, error) {
 	val := AchievementProgressResponse{}
 	url := "achievement/{achievement_id}/progress"
 	url = strings.Replace(url, "{achievement_id}", achievementId, -1)
@@ -90,7 +90,7 @@ func (endpoint *AchievementEndpoint) Record(
 		return nil, fmt.Errorf("achievement record returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return &val.InsertProgressOne, err
 }
 
 /*
@@ -102,7 +102,7 @@ func (endpoint *AchievementEndpoint) List(
 	projectId string,
 	limit int,
 	offset int,
-) (*AchievementListResponse, error) {
+) ([]Achievement, error) {
 	val := AchievementListResponse{}
 	url := "achievement"
 
@@ -118,7 +118,7 @@ func (endpoint *AchievementEndpoint) List(
 		return nil, fmt.Errorf("achievement list returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return val.Achievements, err
 }
 
 /*
@@ -128,7 +128,7 @@ func (endpoint *AchievementEndpoint) List(
 */
 func (endpoint *AchievementEndpoint) Create(
 	body AchievementCreateRequest,
-) (*AchievementCreateResponse, error) {
+) (*Achievement, error) {
 	val := AchievementCreateResponse{}
 	url := "achievement"
 
@@ -142,7 +142,7 @@ func (endpoint *AchievementEndpoint) Create(
 		return nil, fmt.Errorf("achievement create returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return &val.InsertAchievementOne, err
 }
 
 /*
@@ -152,7 +152,7 @@ func (endpoint *AchievementEndpoint) Create(
 */
 func (endpoint *AchievementEndpoint) Read(
 	achievementId string,
-) (*AchievementReadResponse, error) {
+) ([]Achievement, error) {
 	val := AchievementReadResponse{}
 	url := "achievement/{achievement_id}"
 	url = strings.Replace(url, "{achievement_id}", achievementId, -1)
@@ -166,7 +166,7 @@ func (endpoint *AchievementEndpoint) Read(
 		return nil, fmt.Errorf("achievement read returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return val.Achievements, err
 }
 
 /*
@@ -177,7 +177,7 @@ func (endpoint *AchievementEndpoint) Read(
 func (endpoint *AchievementEndpoint) Update(
 	achievementId string,
 	body AchievementUpdateRequest,
-) (*AchievementUpdateResponse, error) {
+) (*Achievement, error) {
 	val := AchievementUpdateResponse{}
 	url := "achievement/{achievement_id}"
 	url = strings.Replace(url, "{achievement_id}", achievementId, -1)
@@ -192,7 +192,7 @@ func (endpoint *AchievementEndpoint) Update(
 		return nil, fmt.Errorf("achievement update returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return &val.UpdateAchievementByPk, err
 }
 
 /*
@@ -202,7 +202,7 @@ func (endpoint *AchievementEndpoint) Update(
 */
 func (endpoint *AchievementEndpoint) Delete(
 	achievementId string,
-) (*AchievementDeleteResponse, error) {
+) (bool, error) {
 	val := AchievementDeleteResponse{}
 	url := "achievement/{achievement_id}"
 	url = strings.Replace(url, "{achievement_id}", achievementId, -1)
@@ -213,10 +213,10 @@ func (endpoint *AchievementEndpoint) Delete(
 
 	if res.StatusCode() > 299 || res.StatusCode() < 200 {
 		fmt.Fprintf(os.Stderr, "%+v\n", res.RawResponse)
-		return nil, fmt.Errorf("achievement delete returned status %v", res.StatusCode())
+		return false, fmt.Errorf("achievement delete returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return true, err
 }
 
 type ParticipantEndpoint struct {
@@ -236,7 +236,7 @@ func (c *ParticipantEndpoint) Request() *resty.Request {
 */
 func (endpoint *ParticipantEndpoint) Progress(
 	participantId string,
-) (*ParticipantProgressResponse, error) {
+) ([]ParticipantProgressItem, error) {
 	val := ParticipantProgressResponse{}
 	url := "participant/{participant_id}/progress"
 	url = strings.Replace(url, "{participant_id}", participantId, -1)
@@ -250,7 +250,7 @@ func (endpoint *ParticipantEndpoint) Progress(
 		return nil, fmt.Errorf("participant progress returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return val.ParticipantProgress, err
 }
 
 /*
@@ -260,7 +260,7 @@ func (endpoint *ParticipantEndpoint) Progress(
 */
 func (endpoint *ParticipantEndpoint) Scores(
 	participantId string,
-) (*ParticipantScoresResponse, error) {
+) ([]ParticipantScoreItem, error) {
 	val := ParticipantScoresResponse{}
 	url := "participant/{participant_id}/scores"
 	url = strings.Replace(url, "{participant_id}", participantId, -1)
@@ -274,7 +274,7 @@ func (endpoint *ParticipantEndpoint) Scores(
 		return nil, fmt.Errorf("participant scores returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return val.ParticipantScores, err
 }
 
 /*
@@ -286,7 +286,7 @@ func (endpoint *ParticipantEndpoint) List(
 	projectId string,
 	limit int,
 	offset int,
-) (*ParticipantListResponse, error) {
+) ([]Participant, error) {
 	val := ParticipantListResponse{}
 	url := "participant"
 
@@ -302,7 +302,7 @@ func (endpoint *ParticipantEndpoint) List(
 		return nil, fmt.Errorf("participant list returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return val.Participants, err
 }
 
 /*
@@ -312,7 +312,7 @@ func (endpoint *ParticipantEndpoint) List(
 */
 func (endpoint *ParticipantEndpoint) Create(
 	body ParticipantCreateRequest,
-) (*ParticipantCreateResponse, error) {
+) (*Participant, error) {
 	val := ParticipantCreateResponse{}
 	url := "participant"
 
@@ -326,7 +326,7 @@ func (endpoint *ParticipantEndpoint) Create(
 		return nil, fmt.Errorf("participant create returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return &val.InsertParticipantOne, err
 }
 
 /*
@@ -336,7 +336,7 @@ func (endpoint *ParticipantEndpoint) Create(
 */
 func (endpoint *ParticipantEndpoint) Read(
 	participantId string,
-) (*ParticipantReadResponse, error) {
+) ([]Participant, error) {
 	val := ParticipantReadResponse{}
 	url := "participant/{participant_id}"
 	url = strings.Replace(url, "{participant_id}", participantId, -1)
@@ -350,7 +350,7 @@ func (endpoint *ParticipantEndpoint) Read(
 		return nil, fmt.Errorf("participant read returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return val.Participants, err
 }
 
 /*
@@ -361,7 +361,7 @@ func (endpoint *ParticipantEndpoint) Read(
 func (endpoint *ParticipantEndpoint) Update(
 	participantId string,
 	body ParticipantUpdateRequest,
-) (*ParticipantUpdateResponse, error) {
+) (*Participant, error) {
 	val := ParticipantUpdateResponse{}
 	url := "participant/{participant_id}"
 	url = strings.Replace(url, "{participant_id}", participantId, -1)
@@ -376,7 +376,7 @@ func (endpoint *ParticipantEndpoint) Update(
 		return nil, fmt.Errorf("participant update returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return &val.UpdateParticipantByPk, err
 }
 
 /*
@@ -386,7 +386,7 @@ func (endpoint *ParticipantEndpoint) Update(
 */
 func (endpoint *ParticipantEndpoint) Delete(
 	participantId string,
-) (*ParticipantDeleteResponse, error) {
+) (bool, error) {
 	val := ParticipantDeleteResponse{}
 	url := "participant/{participant_id}"
 	url = strings.Replace(url, "{participant_id}", participantId, -1)
@@ -397,10 +397,10 @@ func (endpoint *ParticipantEndpoint) Delete(
 
 	if res.StatusCode() > 299 || res.StatusCode() < 200 {
 		fmt.Fprintf(os.Stderr, "%+v\n", res.RawResponse)
-		return nil, fmt.Errorf("participant delete returned status %v", res.StatusCode())
+		return false, fmt.Errorf("participant delete returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return true, err
 }
 
 type ScoreboardEndpoint struct {
@@ -421,7 +421,7 @@ func (c *ScoreboardEndpoint) Request() *resty.Request {
 func (endpoint *ScoreboardEndpoint) Record(
 	scoreboardId string,
 	body ScoreboardScoreRequest,
-) (*ScoreboardScoreResponse, error) {
+) (*Score, error) {
 	val := ScoreboardScoreResponse{}
 	url := "scoreboard/{scoreboard_id}/score"
 	url = strings.Replace(url, "{scoreboard_id}", scoreboardId, -1)
@@ -436,7 +436,7 @@ func (endpoint *ScoreboardEndpoint) Record(
 		return nil, fmt.Errorf("scoreboard record returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return &val.InsertScoreOne, err
 }
 
 /*
@@ -448,7 +448,7 @@ func (endpoint *ScoreboardEndpoint) Scores(
 	scoreboardId string,
 	from time.Time,
 	to time.Time,
-) (*ScoreboardScoresResponse, error) {
+) ([]ScoreboardScoreItem, error) {
 	val := ScoreboardScoresResponse{}
 	url := "scoreboard/{scoreboard_id}/scores"
 	url = strings.Replace(url, "{scoreboard_id}", scoreboardId, -1)
@@ -464,7 +464,7 @@ func (endpoint *ScoreboardEndpoint) Scores(
 		return nil, fmt.Errorf("scoreboard scores returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return val.ScoreboardScores, err
 }
 
 /*
@@ -476,7 +476,7 @@ func (endpoint *ScoreboardEndpoint) List(
 	projectId string,
 	limit int,
 	offset int,
-) (*ScoreboardListResponse, error) {
+) ([]Scoreboard, error) {
 	val := ScoreboardListResponse{}
 	url := "scoreboard"
 
@@ -492,7 +492,7 @@ func (endpoint *ScoreboardEndpoint) List(
 		return nil, fmt.Errorf("scoreboard list returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return val.Scoreboards, err
 }
 
 /*
@@ -502,7 +502,7 @@ func (endpoint *ScoreboardEndpoint) List(
 */
 func (endpoint *ScoreboardEndpoint) Create(
 	body ScoreboardCreateRequest,
-) (*ScoreboardCreateResponse, error) {
+) (*Scoreboard, error) {
 	val := ScoreboardCreateResponse{}
 	url := "scoreboard"
 
@@ -516,7 +516,7 @@ func (endpoint *ScoreboardEndpoint) Create(
 		return nil, fmt.Errorf("scoreboard create returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return &val.InsertScoreboardOne, err
 }
 
 /*
@@ -526,7 +526,7 @@ func (endpoint *ScoreboardEndpoint) Create(
 */
 func (endpoint *ScoreboardEndpoint) Read(
 	scoreboardId string,
-) (*ScoreboardReadResponse, error) {
+) ([]Scoreboard, error) {
 	val := ScoreboardReadResponse{}
 	url := "scoreboard/{scoreboard_id}"
 	url = strings.Replace(url, "{scoreboard_id}", scoreboardId, -1)
@@ -540,7 +540,7 @@ func (endpoint *ScoreboardEndpoint) Read(
 		return nil, fmt.Errorf("scoreboard read returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return val.Scoreboards, err
 }
 
 /*
@@ -551,7 +551,7 @@ func (endpoint *ScoreboardEndpoint) Read(
 func (endpoint *ScoreboardEndpoint) Update(
 	scoreboardId string,
 	body ScoreboardUpdateRequest,
-) (*ScoreboardUpdateResponse, error) {
+) (*Scoreboard, error) {
 	val := ScoreboardUpdateResponse{}
 	url := "scoreboard/{scoreboard_id}"
 	url = strings.Replace(url, "{scoreboard_id}", scoreboardId, -1)
@@ -566,7 +566,7 @@ func (endpoint *ScoreboardEndpoint) Update(
 		return nil, fmt.Errorf("scoreboard update returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return &val.UpdateScoreboardByPk, err
 }
 
 /*
@@ -576,7 +576,7 @@ func (endpoint *ScoreboardEndpoint) Update(
 */
 func (endpoint *ScoreboardEndpoint) Delete(
 	scoreboardId string,
-) (*ScoreboardDeleteResponse, error) {
+) (bool, error) {
 	val := ScoreboardDeleteResponse{}
 	url := "scoreboard/{scoreboard_id}"
 	url = strings.Replace(url, "{scoreboard_id}", scoreboardId, -1)
@@ -587,9 +587,9 @@ func (endpoint *ScoreboardEndpoint) Delete(
 
 	if res.StatusCode() > 299 || res.StatusCode() < 200 {
 		fmt.Fprintf(os.Stderr, "%+v\n", res.RawResponse)
-		return nil, fmt.Errorf("scoreboard delete returned status %v", res.StatusCode())
+		return false, fmt.Errorf("scoreboard delete returned status %v", res.StatusCode())
 	}
 
-	return &val, err
+	return true, err
 }
 
